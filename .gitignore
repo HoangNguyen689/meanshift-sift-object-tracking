@@ -19,3 +19,5 @@
 !*.yml
 !*.json
 .venv
+experiment/
+results/
