@@ -238,7 +238,7 @@ def generate_dataset(output: Path, num_frames: int = NUM_FRAMES) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Generate a controlled object-tracking benchmark.")
-    parser.add_argument("--output", type=Path, default=Path("experiment/data/synthetic"))
+    parser.add_argument("--output", type=Path, default=Path("data/synthetic"))
     parser.add_argument("--frames", type=int, default=NUM_FRAMES)
     args = parser.parse_args()
     generate_dataset(args.output, num_frames=args.frames)

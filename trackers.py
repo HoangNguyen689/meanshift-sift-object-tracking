@@ -1344,7 +1344,7 @@ def validate_tracker_environment() -> None:
         raise RuntimeError(
             "Missing OpenCV tracker support: " + ", ".join(missing) + ". "
             "Activate the project virtual environment, remove conflicting OpenCV wheels, "
-            "and install experiment/requirements.txt."
+            "and install requirements.txt."
         )
 
 def build_tracker(name: str) -> BaseTracker:

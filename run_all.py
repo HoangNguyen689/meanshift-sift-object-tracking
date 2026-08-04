@@ -14,7 +14,7 @@ def main() -> None:
     parser.add_argument("--repeats", type=int, default=3)
     parser.add_argument("--save-videos", action="store_true")
     parser.add_argument("--cpu-name", default="Intel Core i5-12400F")
-    parser.add_argument("--dataset", type=Path, default=Path("experiment/data/synthetic"))
+    parser.add_argument("--dataset", type=Path, default=Path("data/synthetic"))
     parser.add_argument("--output", type=Path, default=Path("results"))
     parser.add_argument("--skip-generate", action="store_true")
     parser.add_argument(

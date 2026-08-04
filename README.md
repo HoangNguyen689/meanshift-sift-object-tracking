@@ -1,62 +1,108 @@
-# Kịch bản thực nghiệm
+# Classical Object-Tracking Benchmark
 
-## Các bộ Object tracking
+This repo compares seven classical object trackers on a controlled synthetic dataset.
 
-| Bộ bám | Cài đặt trong mã | Vai trò |
+## Trackers
+
+| Tracker | Implementation details | Role |
 |---|---|---|
-| MeanShift | Histogram Hue, back-projection, cửa sổ cố định | Baseline histogram |
-| CBWH-MeanShift | Hiệu chỉnh mô hình đích theo histogram nền, sau đó MeanShift | Kiểm tra giảm nhiễu nền |
-| CAMShift | Histogram Hue và mô-men, có giới hạn thay đổi kích thước | Kiểm tra tỉ lệ/hướng |
-| SOAMST | RGB 16 x 16 x 16, trọng số `sqrt(q/p)`, mô-men bậc 0/1/2 và Bhattacharyya | Thích nghi vị trí, tỉ lệ và hướng |
-| SIFT | SIFT, ratio test và RANSAC partial affine | Đặc trưng cục bộ |
-| MeanShift+SIFT | MeanShift thường xuyên, SIFT hiệu chỉnh định kỳ/theo độ tin cậy | Phương án lai |
-| KCF | KCF xám, Gaussian kernel và cập nhật Fourier | Baseline bộ lọc tương quan |
+| MeanShift | Hue histogram, back-projection, fixed window | Baseline histogram |
+| CBWH-MeanShift | Corrects target model with background histogram, then MeanShift | Reduces background clutter |
+| CAMShift | Hue histogram + moments, bounded scale/orientation changes | Checks scale/rotation adaptation |
+| SOAMST | RGB 16×16×16, `sqrt(q/p)` weight, moments 0/1/2 and Bhattacharyya | Adapts position, scale and orientation |
+| SIFT | SIFT keypoints, ratio test and RANSAC partial affine | Local feature baseline |
+| MeanShift+SIFT | MeanShift runs continuously, SIFT corrects periodically/by confidence | Hybrid approach |
+| KCF | Grayscale KCF, Gaussian kernel and Fourier update | Correlation-filter baseline |
 
+## Requirements
 
-## Cài đặt
+- Python >= 3.9
+- OpenCV >= 4.8 (SIFT is included in the main `opencv-python` package since 4.4.2+)
+- Other dependencies listed in `requirements.txt`
 
-```powershell
+## Setup
+
+```bash
 python -m venv .venv
-.venv\Scripts\activate
-python -m pip install -r experiment\requirements.txt
-python experiment\check_environment.py
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+python check_environment.py
 ```
 
+## Running experiments
 
-Kiểm tra nhanh:
+### Quick sanity check (20 frames, 1 repeat)
 
-```powershell
-python experiment\run_all.py --frames 20 --repeats 1
+```bash
+python run_all.py --frames 20 --repeats 1
 ```
 
-Chạy lại toàn bộ bảy tracker:
+### Full benchmark
 
-```powershell
-python experiment\run_all.py --repeats 3 --save-videos
+```bash
+python run_all.py --repeats 3 --save-videos
 ```
 
-Tám chuỗi gồm `translation`, `scale`, `rotation`, `occlusion`, `background_confusion`,
-`fast_motion`, `illumination` và `low_texture`.
+Synthetic data is written to `data/synthetic/` by default. Benchmark results go to `results/`.
 
-Kết quả được ghi vào `results/`:
+### Useful CLI flags
 
-```text
-results/
-  overall.csv
-  per_sequence.csv
-  per_frame.csv
-  generated_results.tex
-  hardware.json
-  hardware.tex
-  success_plot.png
-  precision_plot.png
-  per_sequence_iou.png
-  overall_accuracy.png
-  fps.png
+| Flag | Meaning |
+|---|---|
+| `--dataset <path>` | Change the synthetic-data output directory (default: `data/synthetic`) |
+| `--output <path>` | Change the results directory (default: `results`) |
+| `--frames <n>` | Number of frames per sequence (default: 100) |
+| `--repeats <n>` | Timing repetitions per sequence/tracker (default: 3) |
+| `--save-videos` | Export illustration videos for each tracker |
+| `--skip-generate` | Skip dataset generation if it already exists |
+| `--only-soamst` | Run only SOAMST and merge/replace into existing results |
+| `--cpu-name <name>` | Override the CPU label in the report (default: `Intel Core i5-12400F`) |
+| `--postprocess-only` | Regenerate charts/LaTeX from existing CSV files only |
+
+### Run a subset of trackers directly
+
+If you want to bypass `run_all.py`:
+
+```bash
+python run_benchmark.py --dataset data/synthetic --output results --trackers MeanShift,CAMShift
 ```
 
-## Tạo biểu đồ từ CSV
+| Flag | Meaning |
+|---|---|
+| `--dataset <path>` | **Required.** Dataset root directory |
+| `--trackers <names>` | Comma-separated tracker names, or `all` (default) |
+| `--append` | Run selected trackers and merge/replace them in existing CSV outputs |
 
-```powershell
-python experiment\run_all.py --postprocess-only
+## Test sequences
+
+Eight controlled sequences: `translation`, `scale`, `rotation`, `occlusion`, `background_confusion`, `fast_motion`, `illumination`, `low_texture`.
+
+## Outputs
+
+After running, `results/` contains:
+
+| File | Description |
+|---|---|
+| `overall.csv` | Average accuracy and FPS per tracker |
+| `per_sequence.csv` | Accuracy and FPS per tracker per sequence |
+| `per_frame.csv` | IoU and center error per frame (for fine-grained analysis) |
+| `generated_results.tex` | Summary tables in LaTeX |
+| `hardware.json` | Hardware info in JSON |
+| `hardware.tex` | Hardware info in LaTeX |
+| `success_plot.png` | Success plot (IoU threshold) |
+| `precision_plot.png` | Precision plot (pixel threshold) |
+| `per_sequence_iou.png` | Average IoU per sequence |
+| `overall_accuracy.png` | Overall accuracy comparison |
+| `fps.png` | Speed comparison (FPS) |
+
+## Regenerate charts from CSV
+
+```bash
+python run_all.py --postprocess-only
+```
+
+Or call `run_benchmark.py` directly:
+
+```bash
+python run_benchmark.py --dataset data/synthetic --output results --postprocess-only
 ```
