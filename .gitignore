@@ -19,7 +19,7 @@
 !*.yml
 !*.json
 !*.py
-!mise.toml
+!*.toml
 .venv
 data/
 results/
