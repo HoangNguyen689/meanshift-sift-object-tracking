@@ -1,6 +1,6 @@
-from trackers.base import BBox, TrackResult, clip_bbox, bbox_to_int, polygon_to_bbox, bbox_center_size, bbox_from_center_size, expand_bbox, BaseTracker, FeatureModel
-
 from typing import Any, Optional
+
+from trackers.base import BBox, TrackResult, clip_bbox, bbox_to_int, polygon_to_bbox, bbox_center_size, bbox_from_center_size, expand_bbox, BaseTracker, FeatureModel
 
 import cv2
 import numpy as np

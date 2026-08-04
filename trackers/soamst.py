@@ -1,6 +1,6 @@
-from trackers.base import BBox, TrackResult, clip_bbox, bbox_from_center_size, BaseTracker
-
 from typing import Any, Optional
+
+from trackers.base import BBox, TrackResult, clip_bbox, bbox_from_center_size, BaseTracker
 
 import cv2
 import numpy as np

@@ -1,3 +1,5 @@
+from typing import Optional
+
 from trackers.base import BBox, TrackResult, clip_bbox, BaseTracker
 
 import cv2

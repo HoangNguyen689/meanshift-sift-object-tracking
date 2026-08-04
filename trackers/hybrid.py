@@ -1,8 +1,8 @@
+from typing import Optional
+
 from trackers.base import BBox, TrackResult, clip_bbox, BaseTracker
 from trackers.histogram import MeanShiftTracker
 from trackers.sift import SIFTTracker
-
-from typing import Optional
 
 import cv2
 import numpy as np
