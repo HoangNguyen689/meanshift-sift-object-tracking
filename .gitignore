@@ -20,5 +20,5 @@
 !*.json
 !*.py
 .venv
-experiment/
+data/
 results/
