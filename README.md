@@ -16,7 +16,7 @@ This repo compares seven classical object trackers on a controlled synthetic dat
 
 ## Requirements
 
-- Python >= 3.14.6 (tested on 3.14.6)
+- Python >= 3.14.6 (tested on 3.14.6; see `mise.toml` if you use [mise](https://mise.jdx.dev/))
 - Dependencies (pinned in `requirements.txt`):
 
 | Package | Version |
@@ -28,6 +28,14 @@ This repo compares seven classical object trackers on a controlled synthetic dat
 | `tqdm` | `4.70.0` |
 
 ## Setup
+
+If you use **mise**, the Python version is pinned in `mise.toml`:
+
+```bash
+mise install
+```
+
+Otherwise, ensure Python 3.14.6+ is available, then:
 
 ```bash
 python -m venv .venv
