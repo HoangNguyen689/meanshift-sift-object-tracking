@@ -18,6 +18,7 @@
 !*.yaml
 !*.yml
 !*.json
+!*.py
 .venv
 experiment/
 results/

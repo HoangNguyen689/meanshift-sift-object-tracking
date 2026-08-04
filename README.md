@@ -53,7 +53,7 @@ Synthetic data is written to `data/synthetic/` by default. Benchmark results go 
 | `--output <path>` | Change the results directory (default: `results`) |
 | `--frames <n>` | Number of frames per sequence (default: 100) |
 | `--repeats <n>` | Timing repetitions per sequence/tracker (default: 3) |
-| `--save-videos` | Export illustration videos for each tracker |
+| `--save-videos` | Export illustration videos for each tracker (uses `mp4v` / `avc1` / `XVID` fallback; QuickTime on macOS may need VLC) |
 | `--skip-generate` | Skip dataset generation if it already exists |
 | `--only-soamst` | Run only SOAMST and merge/replace into existing results |
 | `--cpu-name <name>` | Override the CPU label in the report (default: `Intel Core i5-12400F`) |
@@ -66,6 +66,11 @@ If you want to bypass `run_all.py`:
 ```bash
 python run_benchmark.py --dataset data/synthetic --output results --trackers MeanShift,CAMShift
 ```
+
+> **Shell quoting:** Tracker names containing `+` (e.g. `MeanShift+SIFT`) must be quoted to avoid glob expansion:
+> ```bash
+> python run_benchmark.py --dataset data/synthetic --output results --trackers "MeanShift+SIFT"
+> ```
 
 | Flag | Meaning |
 |---|---|

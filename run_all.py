@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 import argparse
-import subprocess
-import sys
 from pathlib import Path
 
+from run_benchmark import run_benchmark_main
 from synthetic_dataset import generate_dataset
 
 
@@ -38,25 +37,16 @@ def main() -> None:
             print("[1/2] Generating controlled synthetic sequences...")
             generate_dataset(args.dataset, num_frames=args.frames)
         print("[2/2] Running benchmark...")
-    command = [
-        sys.executable,
-        str(Path(__file__).with_name("run_benchmark.py")),
-        "--dataset",
-        str(args.dataset),
-        "--output",
-        str(args.output),
-        "--repeats",
-        str(args.repeats),
-        "--cpu-name",
-        args.cpu_name,
-    ]
-    if args.save_videos:
-        command.append("--save-videos")
-    if args.postprocess_only:
-        command.append("--postprocess-only")
-    if args.only_soamst:
-        command.extend(["--trackers", "SOAMST", "--append"])
-    subprocess.run(command, check=True)
+    run_benchmark_main(
+        dataset=args.dataset,
+        output=args.output,
+        repeats=args.repeats,
+        save_videos=args.save_videos,
+        cpu_name=args.cpu_name,
+        trackers_str="SOAMST" if args.only_soamst else "all",
+        postprocess_only=args.postprocess_only,
+        append=args.only_soamst,
+    )
 
 
 if __name__ == "__main__":

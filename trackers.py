@@ -1324,6 +1324,8 @@ class HybridTracker(BaseTracker):
         )
 
 
+TRACKERS = ["MeanShift", "CBWH-MeanShift", "CAMShift", "SOAMST", "SIFT", "MeanShift+SIFT", "KCF"]
+
 TRACKER_IMPLEMENTATION_VERSIONS = {
     "MeanShift": "v1",
     "CBWH-MeanShift": "v1",

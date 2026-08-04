@@ -205,14 +205,14 @@ def generate_sequence(root: Path, name: str, seed: int, num_frames: int) -> None
         "frame_size": {"width": FRAME_SIZE[0], "height": FRAME_SIZE[1]},
         "initial_bbox": [float(v) for v in gt_rows[0].split(",")],
         "description": {
-            "translation": "Tịnh tiến trơn, tỉ lệ và góc gần như không đổi.",
-            "scale": "Tỉ lệ thay đổi liên tục.",
-            "rotation": "Đối tượng xoay từ -55 đến 55 độ.",
-            "occlusion": "Che khuất phần lớn đối tượng ở giữa chuỗi.",
-            "background_confusion": "Có vật gây nhiễu màu gần giống đối tượng.",
-            "fast_motion": "Dịch chuyển lớn giữa các nhóm khung hình.",
-            "illumination": "Cường độ sáng của đối tượng thay đổi mạnh.",
-            "low_texture": "Đối tượng gần như không có điểm đặc trưng cục bộ.",
+            "translation": "Smooth translation; scale and angle nearly unchanged.",
+            "scale": "Scale changes continuously.",
+            "rotation": "Object rotates from -55 to 55 degrees.",
+            "occlusion": "Most of the object is occluded mid-sequence.",
+            "background_confusion": "A color-distraction object similar to the target is present.",
+            "fast_motion": "Large displacement between frame groups.",
+            "illumination": "Object brightness changes strongly.",
+            "low_texture": "Object has almost no local features.",
         }[name],
     }
     (sequence_dir / "meta.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
