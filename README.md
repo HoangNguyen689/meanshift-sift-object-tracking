@@ -17,8 +17,15 @@ This repo compares seven classical object trackers on a controlled synthetic dat
 ## Requirements
 
 - Python >= 3.9
-- OpenCV >= 4.8 (SIFT is included in the main `opencv-python` package since 4.4.2+)
-- Other dependencies listed in `requirements.txt`
+- Dependencies (pinned in `requirements.txt`):
+
+| Package | Version |
+|---|---|
+| `opencv-python` | `5.0.0.93` |
+| `numpy` | `2.5.1` |
+| `pandas` | `3.0.5` |
+| `matplotlib` | `3.11.1` |
+| `tqdm` | `4.70.0` |
 
 ## Setup
 
