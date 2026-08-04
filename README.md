@@ -16,7 +16,7 @@ This repo compares seven classical object trackers on a controlled synthetic dat
 
 ## Requirements
 
-- Python >= 3.9
+- Python >= 3.14.6 (tested on 3.14.6)
 - Dependencies (pinned in `requirements.txt`):
 
 | Package | Version |
